@@ -24,3 +24,9 @@ Abstract definition of what the user wants to do.
 ## adapter
 It is technical details layer.  
 It include web controller, http api, rpc, database, messaging queue, etc.  
+
+# directory
+```
+├── application
+└── domain
+```
