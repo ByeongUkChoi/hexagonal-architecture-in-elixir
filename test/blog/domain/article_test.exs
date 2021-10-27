@@ -44,4 +44,64 @@ defmodule Blog.ArticleTest do
                Article.new(title: "t", content: "c", writer_id: nil)
     end
   end
+
+  describe "update/1" do
+    # success
+    test "update article test with title and content" do
+      modified_title = "Hello world -- modified"
+      modified_content = "hello world... -- modified"
+      writer_id = 1
+
+      article = %Article{writer_id: writer_id}
+
+      assert {:ok, %{title: ^modified_title, content: ^modified_content}} =
+               Article.update(article, %{
+                 title: modified_title,
+                 content: modified_content,
+                 updater_id: writer_id
+               })
+    end
+
+    test "update article test with title" do
+      modified_title = "Hello world -- modified"
+      writer_id = 1
+
+      article = %Article{writer_id: writer_id}
+
+      assert {:ok, %{title: ^modified_title}} =
+               Article.update(article, %{title: modified_title, updater_id: writer_id})
+    end
+
+    test "update article test with content" do
+      modified_content = "hello world... -- modified"
+      writer_id = 1
+
+      article = %Article{writer_id: writer_id}
+
+      assert {:ok, %{content: ^modified_content}} =
+               Article.update(article, %{content: modified_content, updater_id: writer_id})
+    end
+
+    # failure
+    test "can not update except writer" do
+      writer_id = 1
+      updater_id = 2
+      article = %Article{writer_id: writer_id}
+
+      assert {:error, :invailed_updater_id} =
+               Article.update(article, %{title: "t", updater_id: updater_id})
+    end
+
+    test "missing required params test" do
+      writer_id = 1
+      article = %Article{writer_id: writer_id}
+
+      assert {:error, :missing_required_argument} =
+               Article.update(article, %{updater_id: writer_id})
+    end
+
+    test "invalid params test" do
+      assert {:error, :invalid_params} = Article.update(%{}, %{title: "t", updater_id: 1})
+    end
+  end
 end
