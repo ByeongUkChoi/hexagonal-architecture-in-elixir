@@ -33,6 +33,9 @@ defmodule Blog.Article do
   def update(%__MODULE__{}, _), do: {:error, :missing_required_argument}
   def update(_, _), do: {:error, :invalid_params}
 
+  def enable_delete?(%__MODULE__{writer_id: writer_id}, deleter_id: writer_id), do: true
+  def enable_delete?(_, _), do: false
+
   defp set_title(article, title) do
     %__MODULE__{article | title: title}
   end

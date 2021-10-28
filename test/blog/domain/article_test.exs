@@ -45,7 +45,7 @@ defmodule Blog.ArticleTest do
     end
   end
 
-  describe "update/1" do
+  describe "update/2" do
     # success
     test "update article test with title and content" do
       modified_title = "Hello world -- modified"
@@ -102,6 +102,25 @@ defmodule Blog.ArticleTest do
 
     test "invalid params test" do
       assert {:error, :invalid_params} = Article.update(%{}, %{title: "t", updater_id: 1})
+    end
+  end
+
+  describe "enable_delete?/1" do
+    # success
+    test "can delete when equals writer and deleter" do
+      writer_id = 1
+      article = %Article{writer_id: writer_id}
+
+      assert true == Article.enable_delete?(article, deleter_id: writer_id)
+    end
+
+    # failure
+    test "can not delete when diffrent writer and deleter" do
+      writer_id = 1
+      deleter_id = 2
+      article = %Article{writer_id: writer_id}
+
+      assert false == Article.enable_delete?(article, deleter_id: deleter_id)
     end
   end
 end
