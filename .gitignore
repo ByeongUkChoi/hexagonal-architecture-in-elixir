@@ -22,3 +22,5 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 blog-*.tar
 
+# vscode
+/.elixir_ls/
