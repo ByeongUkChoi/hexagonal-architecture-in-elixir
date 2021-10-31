@@ -1,7 +1,7 @@
-defmodule Blog.ArticleTest do
+defmodule Blog.Domain.ArticleTest do
   use Blog.DataCase
 
-  alias Blog.Article
+  alias Blog.Domain.Article
 
   describe "new/1" do
     # success test

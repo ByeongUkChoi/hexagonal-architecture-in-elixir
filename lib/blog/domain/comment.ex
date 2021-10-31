@@ -1,3 +1,3 @@
-defmodule Blog.Comment do
-  defstruct [:id, :content, :article_id, :writer, :inserted_at, :updated_at]
+defmodule Blog.Domain.Comment do
+  defstruct [:id, :content, :article_id, :writer]
 end

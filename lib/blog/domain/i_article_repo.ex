@@ -1,3 +1,5 @@
 defmodule Blog.IArticleRepo do
-  @callback insert(Blog.Article) :: {:ok, Blog.Article} | {:error, any()}
+  alias Blog.Domain.Article
+
+  @callback insert(Article) :: {:ok, Article} | {:error, any()}
 end

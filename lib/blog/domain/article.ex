@@ -1,4 +1,4 @@
-defmodule Blog.Article do
+defmodule Blog.Domain.Article do
   defstruct [:id, :title, :content, :writer_id, :comments]
 
   def new(title: title, content: content, writer_id: writer_id)

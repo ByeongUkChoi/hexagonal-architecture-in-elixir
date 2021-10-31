@@ -1,4 +1,4 @@
-defmodule Blog.ArticleRepo do
+defmodule Blog.Adapter.ArticleRepo do
   # alias Blog.Repo
 
   @behaviour Blog.IArticleRepo
