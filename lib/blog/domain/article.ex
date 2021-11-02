@@ -1,6 +1,15 @@
 defmodule Blog.Domain.Article do
   defstruct [:id, :title, :content, :writer_id, :comments, :inserted_at, :updated_at]
 
+  @type t :: %__MODULE__{
+          id: integer() | nil,
+          title: String.t(),
+          content: String.t(),
+          comments: list() | nil,
+          inserted_at: DateTime.t() | nil,
+          updated_at: DateTime.t() | nil
+        }
+
   def new(title: title, content: content, writer_id: writer_id)
       when is_binary(title) and is_binary(content) and is_integer(writer_id) do
     article = %__MODULE__{title: title, content: content, writer_id: writer_id}
