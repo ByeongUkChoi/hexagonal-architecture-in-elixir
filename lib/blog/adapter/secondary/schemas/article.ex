@@ -2,6 +2,7 @@ defmodule Blog.Adapter.Schemas.Article do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Blog.Domain.Article, as: ArticleDomain
   alias Blog.Adapter.Schemas.{User, Comment}
 
   schema "articles" do
@@ -13,12 +14,20 @@ defmodule Blog.Adapter.Schemas.Article do
     timestamps()
   end
 
-  def insert_changeset(%Blog.Domain.Article{} = article) do
-    attrs = Map.from_struct(article)
+  def insert_changeset(%ArticleDomain{} = article_domain) do
+    attrs = Map.from_struct(article_domain)
 
     %__MODULE__{}
     |> cast(attrs, [:title, :content, :writer_id])
     |> validate_required([:title, :content, :writer_id])
+  end
+
+  def update_changeset(schema, %ArticleDomain{} = article_domain) do
+    attrs = Map.from_struct(article_domain)
+
+    schema
+    |> cast(attrs, [:title, :content])
+    |> validate_required([:title, :content])
   end
 
   def to_domain(%__MODULE__{} = schema) do
@@ -27,6 +36,6 @@ defmodule Blog.Adapter.Schemas.Article do
       |> Map.delete(:writer)
       |> Map.delete(:comments)
 
-    struct(%Blog.Domain.Article{}, attrs)
+    struct(%ArticleDomain{}, attrs)
   end
 end

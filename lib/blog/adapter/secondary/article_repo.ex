@@ -3,12 +3,21 @@ defmodule Blog.Adapter.ArticleRepo do
 
   @behaviour Blog.IArticleRepo
 
-  alias Blog.Adapter.Schemas.Article
+  alias Blog.Domain.Article, as: ArticleDomain
+  alias Blog.Adapter.Schemas.Article, as: ArticleSchema
 
   @impl true
-  def insert(%Blog.Domain.Article{} = article) do
-    with {:ok, schema} <- Article.insert_changeset(article) |> Repo.insert() do
-      {:ok, Article.to_domain(schema)}
+  def insert(%ArticleDomain{} = article) do
+    with {:ok, schema} <- ArticleSchema.insert_changeset(article) |> Repo.insert() do
+      {:ok, ArticleSchema.to_domain(schema)}
+    end
+  end
+
+  @impl true
+  def update(%ArticleDomain{id: article_id} = article) do
+    with %ArticleSchema{} = schema <- Repo.get(ArticleSchema, article_id),
+         {:ok, schema} <- ArticleSchema.update_changeset(schema, article) |> Repo.update() do
+      {:ok, ArticleSchema.to_domain(schema)}
     end
   end
 end
