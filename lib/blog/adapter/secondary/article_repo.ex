@@ -15,9 +15,17 @@ defmodule Blog.Adapter.ArticleRepo do
 
   @impl true
   def update(%ArticleDomain{id: article_id} = article) do
-    with %ArticleSchema{} = schema <- Repo.get(ArticleSchema, article_id),
+    with {:ok, schema} <- get_article_schema(article_id),
          {:ok, schema} <- ArticleSchema.update_changeset(schema, article) |> Repo.update() do
       {:ok, ArticleSchema.to_domain(schema)}
+    end
+  end
+
+  defp get_article_schema(article_id) do
+    Repo.get(ArticleSchema, article_id)
+    |> case do
+      %ArticleSchema{} = article_schema -> {:ok, article_schema}
+      _ -> {:error, :not_found_article_schema}
     end
   end
 end

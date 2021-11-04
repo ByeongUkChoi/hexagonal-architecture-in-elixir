@@ -9,7 +9,8 @@ defmodule Blog.Adapter.ArticleRepoTest do
   alias Blog.Repo
 
   describe "insert/1" do
-    test "return article domain including id, inserted_at and updated_at fileds" do
+    # success
+    test "return article domain including id, inserted_at and updated_at fields" do
       # given
       article = %ArticleDomain{title: "t", content: "cc", writer_id: 1}
 
@@ -32,9 +33,26 @@ defmodule Blog.Adapter.ArticleRepoTest do
       refute is_nil(inserted_at)
       refute is_nil(updated_at)
     end
+
+    # failure
+    test "insert article without title failure test" do
+      article = %ArticleDomain{content: "cc", writer_id: 1}
+      assert {:error, %Ecto.Changeset{}} = ArticleRepo.insert(article)
+    end
+
+    test "insert article without content failure test" do
+      article = %ArticleDomain{title: "t", writer_id: 1}
+      assert {:error, %Ecto.Changeset{}} = ArticleRepo.insert(article)
+    end
+
+    test "insert article without writer_id failure test" do
+      article = %ArticleDomain{title: "t", content: "cc"}
+      assert {:error, %Ecto.Changeset{}} = ArticleRepo.insert(article)
+    end
   end
 
   describe "update/1" do
+    # success
     test "update article with article id" do
       # given
       {:ok, %{id: article_id, writer_id: writer_id}} =
@@ -57,6 +75,19 @@ defmodule Blog.Adapter.ArticleRepoTest do
                 content: ^new_content,
                 writer_id: ^writer_id
               }} = ArticleRepo.update(new_article)
+    end
+
+    # failure
+    test "not found article id failure test" do
+      not_found_article = %ArticleDomain{
+        id: -1,
+        title: "Hello new world",
+        content: "hello new world...."
+      }
+
+      assert {:error, :not_found_article_schema} ==
+               ArticleRepo.update(not_found_article)
+               |> IO.inspect()
     end
   end
 end
