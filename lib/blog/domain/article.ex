@@ -17,7 +17,9 @@ defmodule Blog.Domain.Article do
     {:ok, article}
   end
 
-  def new(_), do: {:error, :missing_required_argument}
+  def new(_) do
+    {:error, :missing_required_argument}
+  end
 
   def update(%{writer_id: writer_id}, %{updater_id: updater_id}) when writer_id != updater_id,
     do: {:error, :invailed_updater_id}

@@ -85,9 +85,7 @@ defmodule Blog.Adapter.ArticleRepoTest do
         content: "hello new world...."
       }
 
-      assert {:error, :not_found_article_schema} ==
-               ArticleRepo.update(not_found_article)
-               |> IO.inspect()
+      assert {:error, :not_found_article_schema} == ArticleRepo.update(not_found_article)
     end
   end
 end
