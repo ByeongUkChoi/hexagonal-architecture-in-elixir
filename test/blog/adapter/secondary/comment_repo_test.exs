@@ -35,5 +35,31 @@ defmodule Blog.Adapter.CommentRepoTest do
       refute is_nil(comment.inserted_at)
       refute is_nil(comment.updated_at)
     end
+
+    # failure
+    test "insert article without content failure test" do
+      assert {:error, %Ecto.Changeset{}} =
+               CommentRepo.insert(%CommentDomain{article_id: 1, writer_id: 1})
+    end
+
+    test "insert article without article id failure test" do
+      assert {:error, %Ecto.Changeset{}} =
+               CommentRepo.insert(%CommentDomain{content: "c", writer_id: 1})
+    end
+
+    test "insert article without writer id failure test" do
+      assert {:error, %Ecto.Changeset{}} =
+               CommentRepo.insert(%CommentDomain{article_id: 1, writer_id: 1})
+    end
+
+    test "insert article invalid article id failure test" do
+      assert {:error, %Ecto.Changeset{}} =
+               CommentRepo.insert(%CommentDomain{content: "c", article_id: 0, writer_id: 1})
+    end
+
+    test "insert article invalid writer id failure test" do
+      assert {:error, %Ecto.Changeset{}} =
+               CommentRepo.insert(%CommentDomain{content: "c", article_id: 1, writer_id: 0})
+    end
   end
 end

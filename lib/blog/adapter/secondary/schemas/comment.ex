@@ -19,6 +19,8 @@ defmodule Blog.Adapter.Schemas.Comment do
     %__MODULE__{}
     |> cast(attrs, [:content, :writer_id, :article_id])
     |> validate_required([:content, :writer_id, :article_id])
+    |> validate_number(:article_id, greater_than: 1)
+    |> validate_number(:writer_id, greater_than: 1)
   end
 
   def to_domain(%__MODULE__{} = schema) do
