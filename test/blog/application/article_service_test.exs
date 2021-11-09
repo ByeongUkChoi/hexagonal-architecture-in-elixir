@@ -1,15 +1,24 @@
 defmodule Blog.ArticleServiceTest do
   use Blog.DataCase
 
+  import Mox
+
   alias Blog.ArticleService
 
   describe "create_article/1" do
     # success test
     test "create article success test" do
       # given
+      id = 1
       title = "Hello world"
       content = "hello.."
-      writer_id = 1
+      writer_id = 2
+      now = DateTime.utc_now() |> DateTime.truncate(:second)
+
+      Blog.MockArticleRepo
+      |> expect(:insert, fn article ->
+        {:ok, %{article | id: id, inserted_at: now, updated_at: now}}
+      end)
 
       # when
       assert {:ok, article} =
@@ -17,14 +26,13 @@ defmodule Blog.ArticleServiceTest do
 
       # then
       assert %{
+               id: ^id,
                title: ^title,
                content: ^content,
-               writer_id: ^writer_id
+               writer_id: ^writer_id,
+               inserted_at: ^now,
+               updated_at: ^now
              } = article
-
-      refute is_nil(article.id)
-      refute is_nil(article.inserted_at)
-      refute is_nil(article.updated_at)
     end
   end
 end

@@ -40,6 +40,7 @@ defmodule Blog.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
+      {:mox, "~> 1.0", only: :test},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
