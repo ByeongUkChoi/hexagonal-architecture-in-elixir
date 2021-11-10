@@ -9,6 +9,7 @@ defmodule Blog.Domain.Article do
           inserted_at: DateTime.t() | nil,
           updated_at: DateTime.t() | nil
         }
+  @type id :: integer()
 
   def new(title: title, content: content, writer_id: writer_id)
       when is_binary(title) and is_binary(content) and is_integer(writer_id) do

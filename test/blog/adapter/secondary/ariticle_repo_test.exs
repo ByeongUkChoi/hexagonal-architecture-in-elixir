@@ -8,6 +8,29 @@ defmodule Blog.Adapter.ArticleRepoTest do
 
   alias Blog.Repo
 
+  describe "get/1" do
+    # success
+    test "get article" do
+      # given
+      {:ok, %{id: article_id, title: title, content: content, writer_id: writer_id}} =
+        Repo.insert(%ArticleSchema{title: "t", content: "c", writer_id: 1})
+
+      # when
+      assert {:ok, article} = ArticleRepo.get(article_id)
+
+      # then
+      assert article_id == article.id
+      assert title == article.title
+      assert content == article.content
+      assert writer_id == article.writer_id
+    end
+
+    # failure
+    test "not found article" do
+      assert {:error, :not_found_article} = ArticleRepo.get(-1)
+    end
+  end
+
   describe "insert/1" do
     # success
     test "return article domain including id, inserted_at and updated_at fields" do
@@ -85,7 +108,7 @@ defmodule Blog.Adapter.ArticleRepoTest do
         content: "hello new world...."
       }
 
-      assert {:error, :not_found_article_schema} == ArticleRepo.update(not_found_article)
+      assert {:error, :not_found_article} == ArticleRepo.update(not_found_article)
     end
   end
 end

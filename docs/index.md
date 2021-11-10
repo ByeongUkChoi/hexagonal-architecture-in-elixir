@@ -5,4 +5,5 @@ layout: home
 
 # Hexagonal architecture in elixir
 
-Learning Hexagonal Architecture while developing blog services.  
+Learning hexagonal architecture while developing blog services.  
+Let's go  
