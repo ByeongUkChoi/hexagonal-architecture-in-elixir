@@ -110,9 +110,11 @@ defmodule Blog.Adapter.ArticleRepoTest do
 
       assert {:error, :not_found_article} == ArticleRepo.update(not_found_article)
     end
+
     test "update article without title failure test" do
       # given
-      {:ok, %{id: article_id}} = Repo.insert(%ArticleSchema{title: "t", content: "c", writer_id: 1})
+      {:ok, %{id: article_id}} =
+        Repo.insert(%ArticleSchema{title: "t", content: "c", writer_id: 1})
 
       article = %ArticleDomain{
         id: article_id,
@@ -122,9 +124,11 @@ defmodule Blog.Adapter.ArticleRepoTest do
       # when & then
       assert {:error, %Ecto.Changeset{}} = ArticleRepo.update(article)
     end
+
     test "update article without content failure test" do
       # given
-      {:ok, %{id: article_id}} = Repo.insert(%ArticleSchema{title: "t", content: "c", writer_id: 1})
+      {:ok, %{id: article_id}} =
+        Repo.insert(%ArticleSchema{title: "t", content: "c", writer_id: 1})
 
       article = %ArticleDomain{
         id: article_id,

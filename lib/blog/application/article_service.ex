@@ -9,4 +9,12 @@ defmodule Blog.ArticleService do
       {:ok, article}
     end
   end
+
+  def update_article(article_id, %{title: _, content: _, updater_id: _} = attr) do
+    with {:ok, article} <- @article_repo.get(article_id),
+         {:ok, article} <- Article.update(article, attr),
+         {:ok, article} <- @article_repo.update(article) do
+      {:ok, article}
+    end
+  end
 end
