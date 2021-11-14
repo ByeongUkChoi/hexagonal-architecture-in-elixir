@@ -89,5 +89,40 @@ defmodule Blog.ArticleServiceTest do
                updated_at: ^updated_at
              } = actual_article
     end
+
+    # failure
+    test "update article invalid updater id failure test" do
+      # given
+      article_id = 1
+      title = "Hello world"
+      content = "hello.."
+      writer_id = 2
+      now = DateTime.utc_now() |> DateTime.truncate(:second)
+
+      article = %Article{
+        id: article_id,
+        title: title,
+        content: content,
+        writer_id: writer_id,
+        inserted_at: now,
+        updated_at: now
+      }
+
+      Blog.MockArticleRepo
+      |> expect(:get, fn id ->
+        assert article_id == id
+        {:ok, article}
+      end)
+
+      updater_id = 3
+
+      # when & assert
+      assert {:error, :invailed_updater_id} ==
+               ArticleService.update_article(article_id, %{
+                 title: title,
+                 content: content,
+                 updater_id: updater_id
+               })
+    end
   end
 end
