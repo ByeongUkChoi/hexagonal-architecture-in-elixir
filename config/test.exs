@@ -29,3 +29,4 @@ config :phoenix, :plug_init_mode, :runtime
 # dependency injection of adapters into ports
 config :blog,
   article_repo: Blog.MockArticleRepo
+  comment_repo: Blog.MockCommentRepo
