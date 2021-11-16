@@ -100,5 +100,8 @@ defmodule Blog.Adapter.CommentRepoTest do
       assert %{id: ^comment3_id, content: ^comment3_content, writer_id: ^comment3_writer_id} =
                comments |> Enum.find(&(&1.id == comment3_id))
     end
+    test "return empty list if not exist comments" do
+      assert [] == CommentRepo.get_all_by_article_id(1)
+    end
   end
 end

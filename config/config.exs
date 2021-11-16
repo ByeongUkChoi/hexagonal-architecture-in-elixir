@@ -27,7 +27,7 @@ config :phoenix, :json_library, Jason
 
 # dependency injection of adapters into ports
 config :blog,
-  article_repo: Blog.Adapter.ArticleRepo
+  article_repo: Blog.Adapter.ArticleRepo,
   comment_repo: Blog.Adapter.CommentRepo
 
 # Import environment specific config. This must remain at the bottom
