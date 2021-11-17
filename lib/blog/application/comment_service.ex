@@ -1,5 +1,4 @@
 defmodule Blog.CommentService do
-
   alias Blog.Adapter.Schemas.Comment, as: CommentSchema
 
   @comment_repo Application.get_env(:blog, :comment_repo)
