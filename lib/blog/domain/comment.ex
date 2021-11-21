@@ -17,6 +17,6 @@ defmodule Blog.Domain.Comment do
   end
 
   def new(_) do
-    {:error, :missing_required_argument}
+    {:error, :invalid_argument}
   end
 end

@@ -52,6 +52,7 @@ defmodule Blog.CommentServiceTest do
   end
 
   describe "create_comment/1" do
+    # success
     test "create comment test" do
       # given
       content = "hello world!"
@@ -90,6 +91,19 @@ defmodule Blog.CommentServiceTest do
       assert writer_id == comment.writer_id
       assert now == comment.inserted_at
       assert now == comment.updated_at
+    end
+
+    # failure
+    test "create comment not found article failure test" do
+      # given
+      Blog.MockArticleRepo
+      |> expect(:get, fn _ ->
+        {:error, :not_found_article}
+      end)
+
+      # when & then
+      assert {:error, :not_found_article} =
+               CommentService.create_comment(content: "c", article_id: 1, writer_id: 1)
     end
   end
 end
