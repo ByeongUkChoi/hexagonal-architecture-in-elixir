@@ -30,4 +30,18 @@ defmodule BlogWeb.ArticleView do
       updated_at: updated_at
     }
   end
+
+  def render("articles.json", %{articles: articles}) do
+    articles
+    |> Enum.map(fn article ->
+      %{
+        id: article.id,
+        title: article.title,
+        writer_id: article.writer_id,
+        comments_count: length(article.comments),
+        inserted_at: article.inserted_at,
+        updated_at: article.updated_at
+      }
+    end)
+  end
 end
