@@ -1,7 +1,11 @@
-defmodule Blog.ArticleService do
+defmodule Blog.Application.ArticleService do
   alias Blog.Domain.Article
 
   @article_repo Application.get_env(:blog, :article_repo)
+
+  def get_article(article_id) do
+    @article_repo.get(article_id)
+  end
 
   def create_article(title: title, content: content, writer_id: writer_id) do
     with {:ok, article} <- Article.new(title: title, content: content, writer_id: writer_id),

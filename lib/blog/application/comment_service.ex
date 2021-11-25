@@ -1,4 +1,4 @@
-defmodule Blog.CommentService do
+defmodule Blog.Application.CommentService do
   alias Blog.Domain.Comment
 
   @article_repo Application.get_env(:blog, :article_repo)
