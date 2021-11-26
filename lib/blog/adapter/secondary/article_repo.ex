@@ -1,7 +1,9 @@
 defmodule Blog.Adapter.ArticleRepo do
-  alias Blog.Repo
-
   @behaviour Blog.IArticleRepo
+
+  import Ecto.Query
+
+  alias Blog.Repo
 
   alias Blog.Domain.Article, as: ArticleDomain
   alias Blog.Adapter.Schemas.Article, as: ArticleSchema
@@ -12,6 +14,15 @@ defmodule Blog.Adapter.ArticleRepo do
       %ArticleSchema{} = article_schema -> {:ok, article_schema}
       _ -> {:error, :not_found_article}
     end
+  end
+
+  @impl true
+  def get_paged(page, size) do
+    ArticleSchema
+    |> limit(^size)
+    |> offset(^(page * size))
+    |> Repo.all()
+    |> Enum.map(&ArticleSchema.to_domain/1)
   end
 
   @impl true

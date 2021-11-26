@@ -74,6 +74,26 @@ defmodule Blog.Adapter.ArticleRepoTest do
     end
   end
 
+  describe "get_paged/2" do
+    # success
+    test "get articles with page and size" do
+      # given
+      {:ok, %{id: article_id, title: title, content: content, writer_id: writer_id}} =
+        Repo.insert(%ArticleSchema{title: "t", content: "c", writer_id: 1})
+
+      # when
+      assert [article] = ArticleRepo.get_paged(0, 1)
+
+      # then
+      assert %{
+               id: ^article_id,
+               title: ^title,
+               content: ^content,
+               writer_id: ^writer_id
+             } = article
+    end
+  end
+
   describe "update/1" do
     # success
     test "update article with article id" do
