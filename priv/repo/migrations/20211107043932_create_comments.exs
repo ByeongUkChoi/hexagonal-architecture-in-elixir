@@ -8,6 +8,7 @@ defmodule Blog.Repo.Migrations.CreateComments do
       add :writer_id, :integer
 
       timestamps()
+      add :deleted_at, :naive_datetime
     end
   end
 end
