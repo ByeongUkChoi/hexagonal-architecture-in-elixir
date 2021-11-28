@@ -10,6 +10,7 @@ defmodule Blog.Adapter.Schemas.Article do
     field :content, :string
     belongs_to :writer, User
     has_many :comments, Comment
+    field :deleted_at, :naive_datetime
 
     timestamps()
   end
