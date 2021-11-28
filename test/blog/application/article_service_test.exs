@@ -6,6 +6,49 @@ defmodule Blog.Application.ArticleServiceTest do
   alias Blog.Application.ArticleService
   alias Blog.Domain.Article
 
+  describe "get_article/1" do
+    test "get article" do
+      # given
+      article_id = 1
+      now = DateTime.utc_now() |> DateTime.truncate(:second)
+
+      article = %Article{
+        id: article_id,
+        title: "Hello world",
+        content: "hello...",
+        writer_id: 2,
+        inserted_at: now,
+        updated_at: now
+      }
+
+      Blog.MockArticleRepo
+      |> expect(:get, fn input_article_id ->
+        assert article_id == input_article_id
+        {:ok, article}
+      end)
+
+      # when
+      assert {:ok, actual_article} = ArticleService.get_article(article_id)
+
+      # then
+      assert article.id == actual_article.id
+      assert article.title == actual_article.title
+      assert article.content == actual_article.content
+      assert article.writer_id == actual_article.writer_id
+      assert article.inserted_at == actual_article.inserted_at
+      assert article.updated_at == actual_article.updated_at
+    end
+
+    test "not found article" do
+      Blog.MockArticleRepo
+      |> expect(:get, fn _ ->
+        {:error, :not_found_article}
+      end)
+
+      assert {:error, :not_found_article} == ArticleService.get_article(-1)
+    end
+  end
+
   describe "create_article/1" do
     # success test
     test "create article success test" do
