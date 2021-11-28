@@ -1,9 +1,9 @@
-defmodule Blog.CommentServiceTest do
+defmodule Blog.Application.CommentServiceTest do
   use Blog.DataCase
 
   import Mox
 
-  alias Blog.CommentService
+  alias Blog.Application.CommentService
   alias Blog.Domain.{Article, Comment}
 
   describe "get_comments/1" do

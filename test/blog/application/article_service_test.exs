@@ -1,9 +1,9 @@
-defmodule Blog.ArticleServiceTest do
+defmodule Blog.Application.ArticleServiceTest do
   use Blog.DataCase
 
   import Mox
 
-  alias Blog.ArticleService
+  alias Blog.Application.ArticleService
   alias Blog.Domain.Article
 
   describe "create_article/1" do
