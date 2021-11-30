@@ -49,6 +49,31 @@ defmodule Blog.Application.ArticleServiceTest do
     end
   end
 
+  describe "get_articles/1" do
+    test "get articles with page and size" do
+      all_articles = [%Article{id: 1}, %Article{id: 2}, %Article{id: 3}]
+
+      for _ <- 1..7, do: expect_get_paged_article(all_articles)
+
+      assert [%{id: 1}, %{id: 2}, %{id: 3}] = ArticleService.get_articles(page: 0, size: 9)
+      assert [%{id: 1}] = ArticleService.get_articles(page: 0, size: 1)
+      assert [%{id: 2}] = ArticleService.get_articles(page: 1, size: 1)
+      assert [%{id: 3}] = ArticleService.get_articles(page: 1, size: 2)
+      assert [%{id: 3}] = ArticleService.get_articles(page: 2, size: 1)
+      assert [] = ArticleService.get_articles(page: 3, size: 1)
+      assert [] = ArticleService.get_articles(page: 1, size: 9)
+    end
+
+    defp expect_get_paged_article(all_articles) do
+      Blog.MockArticleRepo
+      |> expect(:get_paged, fn page, size ->
+        all_articles
+        |> Enum.chunk_every(size)
+        |> Enum.at(page, [])
+      end)
+    end
+  end
+
   describe "create_article/1" do
     # success test
     test "create article success test" do

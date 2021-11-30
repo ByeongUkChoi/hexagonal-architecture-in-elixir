@@ -7,6 +7,10 @@ defmodule Blog.Application.ArticleService do
     @article_repo.get(article_id)
   end
 
+  def get_articles(page: page, size: size) do
+    @article_repo.get_paged(page, size)
+  end
+
   def create_article(title: title, content: content, writer_id: writer_id) do
     with {:ok, article} <- Article.new(title: title, content: content, writer_id: writer_id),
          {:ok, article} <- @article_repo.insert(article) do
