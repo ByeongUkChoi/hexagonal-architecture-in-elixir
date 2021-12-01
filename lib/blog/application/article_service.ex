@@ -2,6 +2,7 @@ defmodule Blog.Application.ArticleService do
   alias Blog.Domain.Article
 
   @article_repo Application.get_env(:blog, :article_repo)
+  @article_like_repo Application.get_env(:blog, :article_like_repo)
 
   def get_article(article_id) do
     @article_repo.get(article_id)
@@ -23,6 +24,13 @@ defmodule Blog.Application.ArticleService do
          {:ok, article} <- Article.update(article, attr),
          {:ok, article} <- @article_repo.update(article) do
       {:ok, article}
+    end
+  end
+
+  def like_article(article_id: article_id, user_id: user_id) do
+    with {:ok, _article} <- @article_repo.get(article_id),
+         {:ok, _} <- @article_like_repo.like(article_id, user_id) do
+      :ok
     end
   end
 end
