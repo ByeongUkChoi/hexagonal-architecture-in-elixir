@@ -1,11 +1,10 @@
 defmodule Blog.Domain.Article do
-  defstruct [:id, :title, :content, :writer_id, :comments, :inserted_at, :updated_at]
+  defstruct [:id, :title, :content, :writer_id, :inserted_at, :updated_at]
 
   @type t :: %__MODULE__{
           id: integer() | nil,
           title: String.t(),
           content: String.t(),
-          comments: list() | nil,
           inserted_at: DateTime.t() | nil,
           updated_at: DateTime.t() | nil
         }

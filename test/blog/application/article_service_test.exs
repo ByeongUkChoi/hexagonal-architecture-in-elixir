@@ -215,5 +215,27 @@ defmodule Blog.Application.ArticleServiceTest do
       # when & then
       assert :ok == ArticleService.like_article(article_id: article_id, user_id: 2)
     end
+
+    # failure test
+    test "already like article failure test" do
+      # given
+      article_id = 1
+
+      Blog.MockArticleRepo
+      |> expect(:get, fn id ->
+        assert article_id == id
+        {:ok, %Article{id: id}}
+      end)
+
+      Blog.MockArticleLikeRepo
+      |> expect(:like, fn id, _user_id ->
+        assert article_id == id
+        {:error, :duplicated}
+      end)
+
+      # when & then
+      assert {:error, :duplicated} ==
+               ArticleService.like_article(article_id: article_id, user_id: 2)
+    end
   end
 end
