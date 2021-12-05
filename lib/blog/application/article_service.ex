@@ -33,4 +33,11 @@ defmodule Blog.Application.ArticleService do
       :ok
     end
   end
+
+  def unlike_article(article_id: article_id, user_id: user_id) do
+    with {:ok, _article} <- @article_repo.get(article_id),
+         {:ok, _} <- @article_like_repo.unlike(article_id, user_id) do
+      :ok
+    end
+  end
 end

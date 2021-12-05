@@ -238,4 +238,70 @@ defmodule Blog.Application.ArticleServiceTest do
                ArticleService.like_article(article_id: article_id, user_id: 2)
     end
   end
+
+  describe "unlike_article/1" do
+    # success test
+    test "unlike article" do
+      # given
+      article_id = 1
+
+      Blog.MockArticleRepo
+      |> expect(:get, fn id ->
+        assert article_id == id
+        {:ok, %Article{id: id}}
+      end)
+
+      Blog.MockArticleLikeRepo
+      |> expect(:unlike, fn id, _user_id ->
+        assert article_id == id
+        {:ok, nil}
+      end)
+
+      # when & then
+      assert :ok == ArticleService.unlike_article(article_id: article_id, user_id: 2)
+    end
+
+    # failure test
+    test "not like article failure test" do
+      # given
+      article_id = 1
+
+      Blog.MockArticleRepo
+      |> expect(:get, fn id ->
+        assert article_id == id
+        {:ok, %Article{id: id}}
+      end)
+
+      Blog.MockArticleLikeRepo
+      |> expect(:unlike, fn id, _user_id ->
+        assert article_id == id
+        {:error, :not_found}
+      end)
+
+      # when & then
+      assert {:error, :not_found} ==
+               ArticleService.unlike_article(article_id: article_id, user_id: 2)
+    end
+
+    test "already unlike article failure test" do
+      # given
+      article_id = 1
+
+      Blog.MockArticleRepo
+      |> expect(:get, fn id ->
+        assert article_id == id
+        {:ok, %Article{id: id}}
+      end)
+
+      Blog.MockArticleLikeRepo
+      |> expect(:unlike, fn id, _user_id ->
+        assert article_id == id
+        {:error, :duplicated}
+      end)
+
+      # when & then
+      assert {:error, :duplicated} ==
+               ArticleService.unlike_article(article_id: article_id, user_id: 2)
+    end
+  end
 end
