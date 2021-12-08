@@ -31,6 +31,9 @@ config :blog,
   article_like_repo: Blog.Adapter.ArticleLikeRepo,
   comment_repo: Blog.Adapter.CommentRepo
 
+# follower_repo: Blog.Adapter.FollowerRe
+# email_sender: Blog.Adapter.EmailSender
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
