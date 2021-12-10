@@ -30,4 +30,6 @@ config :phoenix, :plug_init_mode, :runtime
 config :blog,
   article_repo: Blog.MockArticleRepo,
   article_like_repo: Blog.MockArticleLikeRepo,
-  comment_repo: Blog.MockCommentRepo
+  comment_repo: Blog.MockCommentRepo,
+  follower_repo: Blog.MockFollowerRepo,
+  email_sender: Blog.MockEmailSender
