@@ -25,7 +25,7 @@ defmodule Blog.Application.NotifierTest do
         :ok
       end)
 
-      assert :ok == Notificater.notify_to_follower(:email, title: title, writer_id: writer_id)
+      assert :ok == Notificater.notify_to_follower(:email, %{title: title, writer_id: writer_id})
     end
   end
 end

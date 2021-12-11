@@ -89,6 +89,9 @@ defmodule Blog.Application.ArticleServiceTest do
         {:ok, %{article | id: id, inserted_at: now, updated_at: now}}
       end)
 
+      Blog.MockNotificater
+      |> expect(:notify_to_follower, fn :email, %{id: ^id} -> :ok end)
+
       # when
       assert {:ok, article} =
                ArticleService.create_article(title: title, content: content, writer_id: writer_id)

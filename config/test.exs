@@ -32,4 +32,5 @@ config :blog,
   article_like_repo: Blog.MockArticleLikeRepo,
   comment_repo: Blog.MockCommentRepo,
   follower_repo: Blog.MockFollowerRepo,
-  email_sender: Blog.MockEmailSender
+  email_sender: Blog.MockEmailSender,
+  notificater: Blog.MockNotificater

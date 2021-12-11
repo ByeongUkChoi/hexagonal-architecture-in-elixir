@@ -29,7 +29,8 @@ config :phoenix, :json_library, Jason
 config :blog,
   article_repo: Blog.Adapter.ArticleRepo,
   article_like_repo: Blog.Adapter.ArticleLikeRepo,
-  comment_repo: Blog.Adapter.CommentRepo
+  comment_repo: Blog.Adapter.CommentRepo,
+  notificater: Blog.Application.Notificater
 
 # follower_repo: Blog.Adapter.FollowerRe
 # email_sender: Blog.Adapter.EmailSender
