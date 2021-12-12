@@ -106,6 +106,28 @@ defmodule Blog.Application.ArticleServiceTest do
                updated_at: ^now
              } = article
     end
+
+    # failure
+    test "create article with failed notify test" do
+      # given
+      id = 1
+      title = "Hello world"
+      content = "hello.."
+      writer_id = 2
+      now = DateTime.utc_now() |> DateTime.truncate(:second)
+
+      Blog.MockArticleRepo
+      |> expect(:insert, fn article ->
+        {:ok, %{article | id: id, inserted_at: now, updated_at: now}}
+      end)
+
+      Blog.MockNotificater
+      |> expect(:notify_to_follower, fn :email, %{id: ^id} -> {:error, :internal_server_error} end)
+
+      # when
+      assert {:error, _} =
+               ArticleService.create_article(title: title, content: content, writer_id: writer_id)
+    end
   end
 
   describe "update_article/1" do

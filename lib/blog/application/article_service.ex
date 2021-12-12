@@ -15,8 +15,8 @@ defmodule Blog.Application.ArticleService do
 
   def create_article(title: title, content: content, writer_id: writer_id) do
     with {:ok, article} <- Article.new(title: title, content: content, writer_id: writer_id),
-         {:ok, article} <- @article_repo.insert(article) do
-      @notificater.notify_to_follower(:email, article)
+         {:ok, article} <- @article_repo.insert(article),
+         :ok <- @notificater.notify_to_follower(:email, article) do
       {:ok, article}
     end
   end
