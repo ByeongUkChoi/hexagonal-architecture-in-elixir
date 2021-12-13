@@ -1,9 +1,7 @@
 ---
-title: index
+title: Hexagonal architecture
 layout: home
 ---
-
-# Hexagonal architecture
 
 The main keyword of hexagonal architecture is the separation of domains and infrastructure.  
 It means separating "Bussiness logic" and "Technical details".  
